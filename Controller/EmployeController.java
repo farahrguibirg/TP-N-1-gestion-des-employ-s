@@ -27,7 +27,7 @@ public class EmployeController {
                     Role role = (Role) view.roles.getSelectedItem();
                     Poste poste = (Poste) view.postes.getSelectedItem();
 
-                    model.addEmployee(id, nom, prenom, email, telephone, salaire, role, poste);
+                    model.addEmploye(id, nom, prenom, email, telephone, salaire, role, poste);
                     Object[] row = {id, nom, prenom, telephone, email, salaire, role, poste};
                     view.model.addRow(row);
                     System.out.println("Employé ajouté : " + id + nom + prenom + telephone + email + salaire + role + poste);
@@ -52,7 +52,7 @@ public class EmployeController {
                         Role role = (Role) view.roles.getSelectedItem();
                         Poste poste = (Poste) view.postes.getSelectedItem();
 
-                        model.modifyEmployee(id, nom, prenom, email, telephone, salaire, role, poste);
+                        model.modifyEmploye(id, nom, prenom, email, telephone, salaire, role, poste);
                         view.model.setValueAt(id, selectedRow, 0);
                         view.model.setValueAt(nom, selectedRow, 1);
                         view.model.setValueAt(prenom, selectedRow, 2);
