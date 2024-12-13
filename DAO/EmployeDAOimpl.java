@@ -16,7 +16,7 @@ public class EmployeDAOImpl implements EmployeDAOI {
     }
 
     @Override
-    public void addEmployee(Employe emp) {
+    public void addEmploye(Employe emp) {
         String sql = "INSERT INTO Employe (id,nom, prenom, email, salaire, role, poste, telephone) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement st = c.getConnexion().prepareStatement(sql)) {
         	st.setInt(1, emp.getId());
@@ -78,12 +78,12 @@ public class EmployeDAOImpl implements EmployeDAOI {
 
     @Override
     public List<Employe> getAllEmploye() {
-        List<Employe> employees = new ArrayList<>();
+        List<Employe> employes = new ArrayList<>();
         String sql = "SELECT * FROM Employe";
         try (PreparedStatement st = c.getConnexion().prepareStatement(sql);
              ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
-                employees.add(new Employe(
+            	employes.add(new Employe(
                 		rs.getInt("id"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
@@ -98,6 +98,6 @@ public class EmployeDAOImpl implements EmployeDAOI {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);
         }
-        return employees;
+        return employes;
     }
 }
