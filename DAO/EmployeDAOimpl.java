@@ -17,7 +17,7 @@ public class EmployeDAOImpl implements EmployeDAOI {
 
     @Override
     public void addEmploye(Employe emp) {
-        String sql = "INSERT INTO Employe (id,nom, prenom,telephone, email, salaire, role, poste) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Employe (id,nom, prenom, email, salaire, role, poste,telephone) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement st = c.getConnexion().prepareStatement(sql)) {
         	st.setInt(1, emp.getId());
             st.setString(2, emp.getNom());
@@ -28,7 +28,7 @@ public class EmployeDAOImpl implements EmployeDAOI {
             st.setString(7, emp.getPoste());
             st.setString(8, emp.getTelephone());
             st.executeUpdate();
-            JOptionPane.showMessageDialog(null, "successfully!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "successfully inserted!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);
@@ -49,7 +49,7 @@ public class EmployeDAOImpl implements EmployeDAOI {
             st.setInt(8, emp.getId());
             int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, " successfully!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, " successfully updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "employe ne trouve pas.", "Alerte", JOptionPane.WARNING_MESSAGE);
             }
@@ -66,7 +66,7 @@ public class EmployeDAOImpl implements EmployeDAOI {
             st.setInt(1, id);
             int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, " successfully!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, " successfully deleted!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "employe ne trouve pas .", "Information", JOptionPane.WARNING_MESSAGE);
             }
