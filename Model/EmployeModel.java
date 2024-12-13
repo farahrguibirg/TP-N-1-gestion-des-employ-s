@@ -1,37 +1,64 @@
 package Model;
 
-import DAO.EmployeDAOimpl;
-import DAO.EmployeDAOI;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import DAO.EmployeDAOImpl;
 
 public class EmployeModel {
-    private final EmployeDAOI employeDAO;
+    private EmployeDAOImpl dao;
 
-    public EmployeModel() {
-        this.employeDAO = new EmployeDAOimpl();
+    public EmployeModel(EmployeDAOImpl dao) {
+        this.dao = dao;
     }
 
-	public void ajouterEmploye(Employe employe) {
-        employeDAO.ajouterEmploye(employe);
+    public boolean addEmploye(int id,String nom, String prenom, String email, String telephone, double salaire, Role role, Poste poste) {
+        if (!email.contains("@") || !email.contains(".")) {
+            System.err.println("Email must be valid and contain '@' and '.' characters.");
+            return false;
+        }
+        if (telephone.length() != 10) {
+            System.err.println("The phone number must contain exactly 10 digits.");
+            return false;
+        }
+        Employe emp = new Employe(id,nom, prenom, email, telephone, salaire, role, poste);
+        dao.addEmploye(emp);
+        return true;
     }
 
-    public List<Employe> getAllEmployes() {
-        return employeDAO.getAllEmployes();
+    public boolean modifyEmploye(int id,String nom, String prenom, String email, String telephone, double salaire, Role role, Poste poste) {
+        if (!email.contains("@") || !email.contains(".")) {
+            System.err.println("Email must be valid and contain '@' and '.' characters.");
+            return false;
+        }
+        if (telephone.length() != 10) {
+            System.err.println("The phone number must contain exactly 10 digits.");
+            return false;
+        }
+        Employe emp = new Employe(id,nom, prenom, email, telephone, salaire, role, poste);
+        dao.modifyEmploye(emp);
+        return true;
     }
 
-    public void updateEmploye(Employe employe) {
-        employeDAO.updateEmploye(employe);
+    public boolean deleteEmployee(int id){
+    	dao.deleteEmploye(id);
+    	return true;
     }
+    public Object[][] getAllEmployees() {
+        List<Employe> employes = dao.getAllEmploye();
+        Object[][] employegs = new Object[employes.size()][8]; 
 
-    public void deleteEmploye(int id) {
-        employeDAO.deleteEmploye(id);
+        for (int i = 0; i < employes.size(); i++) {
+        	Employe emp = employes.get(i);
+        	employegs[i][0] = emp.getId();
+        	employegs[i][1] = emp.getNom();
+        	employegs[i][2] = emp.getPrenom();
+        	employegs[i][3] = emp.getEmail();
+        	employegs[i][4] = emp.getTelephone();
+        	employegs[i][5] = emp.getSalaire();
+        	employegs[i][6] = emp.getRole();
+        	employegs[i][7] = emp.getPoste();
+        }
+        return employegs;
     }
-
-    public List<Employe> rechercherEmployes(String searchTerm) {
-        List<Employe> employes = employeDAO.getAllEmployes(); 
-        return employes.stream()
-            .filter(emp -> emp.getNom().contains(searchTerm) || emp.getPrenom().contains(searchTerm))
-            .collect(Collectors.toList());
-    }
+    
 }
