@@ -6,16 +6,16 @@ import java.sql.SQLException;
 
 public class Connexion {
     private static final String URL = "jdbc:mysql://localhost:3306/gestion_des_employees";
-    private static final String USERNAME = "root"; // Remplacez par votre nom d'utilisateur
-    private static final String PASSWORD = ""; // Remplacez par votre mot de passe
+    private static final String USERNAME = "root"; 
+    private static final String PASSWORD = ""; 
 
     public static Connection getConnexion() {
         try {
-            System.out.println("Connexion à la base de données...");
+            System.out.println("Connexion Ã  la base de donnÃ©es...");
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            System.err.println("Erreur de connexion à la base de données :");
-            e.printStackTrace(); // Affiche les détails de l'erreur
+            System.err.println("Erreur de connexion Ã  la base de donnÃ©es :");
+            e.printStackTrace(); 
             return null;
         }
     }
