@@ -17,7 +17,7 @@ public class EmployeDAOImpl implements EmployeDAOI {
 
     @Override
     public void addEmploye(Employe emp) {
-        String sql = "INSERT INTO Employe (id,nom, prenom, email, salaire, role, poste, telephone) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Employe (id,nom, prenom,telephone, email, salaire, role, poste) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement st = c.getConnexion().prepareStatement(sql)) {
         	st.setInt(1, emp.getId());
             st.setString(2, emp.getNom());
