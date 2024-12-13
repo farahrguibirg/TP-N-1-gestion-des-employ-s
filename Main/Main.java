@@ -1,17 +1,13 @@
 package Main;
-
-import Controller.EmployeController;
-import view.EmployeView;
-import Model.EmployeModel;
-
+import Model.*;
+import View.*;
+import DAO.*;
+import Controller.*;
 public class Main {
-    public static void main(String[] args) {
-        // Création des instances pour le modèle, la vue et le contrôleur
-        EmployeView view = new EmployeView();
-        EmployeModel service = new EmployeModel();
-        EmployeController controller = new EmployeController(view, service);
-
-        // Rendre la vue visible
-        view.setVisible(true);
-    }
+	public static void main(String[] args) {
+		EmployeDAOImpl dao = new EmployeDAOImpl();
+		EmployeModel model = new EmployeModel(dao);
+		EmployeView view = new EmployeView();
+		EmployeController controller = new EmployeController(view,model);
+	}
 }
