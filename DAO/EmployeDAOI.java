@@ -1,12 +1,11 @@
 package DAO;
-
-import Model.Employe;
 import java.util.List;
 
+import Model.Employe;
 public interface EmployeDAOI {
-    void ajouterEmploye(Employe emp);
-    List<Employe> getAllEmployes();
-    void updateEmploye(Employe emp);
-    void deleteEmploye(int id);
-    Employe getEmployeById(int id);
+	public void addEmployee(Employe emp);
+	public void modifyEmployee(Employe emp);
+	public void deleteEmployee(int id);
+	public List<Employe> getAllEmployees();
+	
 }
