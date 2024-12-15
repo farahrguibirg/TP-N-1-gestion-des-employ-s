@@ -1,99 +1,162 @@
 package View;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import Model.Poste;
-import Model.Role;
-import java.awt.*;
+import Model.*;
 
 public class EmployeView extends JFrame {
-    public JPanel panel1;
-    public JPanel panel2;
-    public JPanel panel3;
-
-    public JLabel label1, label2, label3, label4, label5, label6, label7, labelId;
-    public JTextField textId, text1, text2, text3, text4, text5;
-    public JComboBox<Role> roles;
-    public JComboBox<Poste> postes;
+    public JPanel pane1, pane2, pane3;
+    public JLabel label1, label2, label3, label4, label5, label6, label7, label8;
+    public JTextField idf, nomf, prenomf, emailf, telephonef, salairef;
+    public JComboBox<Role> roles; // ComboBox pour les rôles
+    public JComboBox<Poste> postes; // ComboBox pour les postes
     public JTable table;
-    public DefaultTableModel model;
-    public JScrollPane scrollPane;
-    public JButton btn1, btn2, btn3, btn4;
+    public DefaultTableModel tableModel;
+    public JButton ajouterButton, modifierButton,supprimerButton, afficherButton;
 
     public EmployeView() {
-        setTitle("Gestion des employés");
-        setSize(600, 600);
+        setTitle("Gestion Des Employés");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 400);
         this.setLocationRelativeTo(null);
 
-        panel1 = new JPanel(new BorderLayout());
-        panel2 = new JPanel(new GridLayout(8, 2));
-        panel3 = new JPanel(new FlowLayout());
+        pane1 = new JPanel(new BorderLayout());
+        pane2 = new JPanel(new GridLayout(8, 2, 5, 5));
+        pane3 = new JPanel(new FlowLayout());
 
-      
-        labelId = new JLabel("ID:");
-        textId = new JTextField(10);
+        label1 = new JLabel("ID:");
+        idf = new JTextField(10);
 
-        label1 = new JLabel("Nom:");
-        text1 = new JTextField(10);
+        label2 = new JLabel("Nom:");
+        nomf = new JTextField(10);
 
-        label2 = new JLabel("Prenom:");
-        text2 = new JTextField(10);
-
-        label3 = new JLabel("Telephone:");
-        text3 = new JTextField(10);
+        label3 = new JLabel("Prenom:");
+        prenomf = new JTextField(10);
 
         label4 = new JLabel("Email:");
-        text4 = new JTextField(10);
+        emailf = new JTextField(10);
 
-        label5 = new JLabel("Salaire:");
-        text5 = new JTextField(10);
+        label5 = new JLabel("Telephone:");
+        telephonef = new JTextField(10);
 
-        label6 = new JLabel("Roles:");
+        label6 = new JLabel("Salaire:");
+        salairef = new JTextField(10);
+
+        label7 = new JLabel("Role:");
         roles = new JComboBox<>(Role.values());
 
-        label7 = new JLabel("Postes:");
+        label8 = new JLabel("Poste:");
         postes = new JComboBox<>(Poste.values());
 
-        panel2.add(labelId);
-        panel2.add(textId); 
-        panel2.add(label1);
-        panel2.add(text1);
-        panel2.add(label2);
-        panel2.add(text2);
-        panel2.add(label3);
-        panel2.add(text3);
-        panel2.add(label4);
-        panel2.add(text4);
-        panel2.add(label5);
-        panel2.add(text5);
-        panel2.add(label6);
-        panel2.add(roles);
-        panel2.add(label7);
-        panel2.add(postes);
+        pane2.add(label1);
+        pane2.add(idf);
+        pane2.add(label2);
+        pane2.add(nomf);
+        pane2.add(label3);
+        pane2.add(prenomf);
+        pane2.add(label4);
+        pane2.add(emailf);
+        pane2.add(label5);
+        pane2.add(telephonef);
+        pane2.add(label6);
+        pane2.add(salairef);
+        pane2.add(label7);
+        pane2.add(roles);
+        pane2.add(label8);
+        pane2.add(postes);
 
-    
-        String[] columnNames = {"ID", "Nom", "Prenom", "Telephone", "Email", "Salaire", "Role", "Poste"};
-        model = new DefaultTableModel(columnNames, 0);
-        table = new JTable(model);
-        scrollPane = new JScrollPane(table);
+        ajouterButton = new JButton("Ajouter");
+        modifierButton = new JButton("Modifier");
+        supprimerButton = new JButton("Supprimer");
+        afficherButton = new JButton("Afficher");
 
-        btn1 = new JButton("Ajouter");
-        btn2 = new JButton("Modifier");
-        btn3 = new JButton("Supprimer");
-        btn4 = new JButton("Afficher");
+        pane3.add(ajouterButton);
+        pane3.add(modifierButton);
+        pane3.add(supprimerButton);
+        pane3.add(afficherButton);
 
-        panel3.add(btn1);
-        panel3.add(btn2);
-        panel3.add(btn3);
-        panel3.add(btn4);
+        String[] columnNames = {"ID", "Nom", "Prenom", "Email", "Téléphone", "Salaire", "Rôle", "Poste"};
+        tableModel = new DefaultTableModel(columnNames, 0);
+        table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        pane1.add(pane2, BorderLayout.NORTH);
+        pane1.add(scrollPane, BorderLayout.CENTER);
+        pane1.add(pane3, BorderLayout.SOUTH);
 
-  
-        panel1.add(panel2, BorderLayout.NORTH);
-        panel1.add(scrollPane, BorderLayout.CENTER);
-        panel1.add(panel3, BorderLayout.SOUTH);
-
-        add(panel1);
+        add(pane1);
         setVisible(true);
+    }
+
+    public void afficherMessageSucces(String message) {
+        JOptionPane.showMessageDialog(null, message, "Succès", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void afficherMessageErreur(String message) {
+        JOptionPane.showMessageDialog(null, message, "Erreur", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public int getId() {
+        try {
+            return Integer.parseInt(idf.getText());
+        } catch (NumberFormatException e) {
+            afficherMessageErreur("L'ID doit être un nombre valide.");
+            return -1;
+        }
+    }
+
+    public String getNom() {
+        return nomf.getText();
+    }
+
+    public String getPrenom() {
+        return prenomf.getText();
+    }
+
+    public String getEmail() {
+        return emailf.getText();
+    }
+
+    public String getTelephone() {
+        return telephonef.getText();
+    }
+
+    public double getSalaire() {
+        try {
+            return Double.parseDouble(salairef.getText());
+        } catch (NumberFormatException e) {
+            afficherMessageErreur("Le salaire doit être un nombre valide.");
+            return -1;
+        }
+    }
+
+    public Role getRole() {
+        return (Role) roles.getSelectedItem();
+    }
+    public Poste getPoste() {
+        return (Poste) postes.getSelectedItem();
+    }
+    public static void main(String[] args) {
+        new EmployeView();
+    }
+    public JButton getAjouterButton() {
+        return ajouterButton;
+    }
+    public DefaultTableModel getModel() {
+        return tableModel;
+    }
+    public JButton getModifierButton() {
+        return modifierButton;
+    }
+    public JButton getSupprimerButton() {
+        return supprimerButton;
+    }
+    public JButton getAfficherButton() {
+        return afficherButton;
+    }
+    public JTable getTable() {
+        return table;
     }
 }
