@@ -7,14 +7,13 @@ import javax.swing.JOptionPane;
 import Model.Employe;
 import Model.Poste;
 import Model.Role;
-
+/*  Initialise la connexion avec la base de données.
+     */
 public class EmployeDAOImpl implements EmployeDAOI {
     private static Connexion c;
-
     public EmployeDAOImpl() {
-        c = new Connexion();
-    }
-
+        c = new Connexion();}
+         /* Ajoute un nouvel employé dans la base de données.*/
     @Override
     public void addEmploye(Employe emp) {
         String sql = "INSERT INTO Employe (id,nom, prenom, email, salaire, role, poste,telephone) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
@@ -28,13 +27,12 @@ public class EmployeDAOImpl implements EmployeDAOI {
             st.setString(7, emp.getPoste());
             st.setString(8, emp.getTelephone());
             st.executeUpdate();
-            JOptionPane.showMessageDialog(null, "successfully inserted!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Insertion réussie!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
+            JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);}}
+            /*Modifie un employé existant dans la base de données.
+     */
     @Override
     public void modifyEmploye(Employe emp) {
         String sql = "UPDATE Employe SET nom = ? , prenom = ? , email = ?, salaire = ?, role = ?, poste = ?, telephone = ? WHERE id = ?";
@@ -49,16 +47,14 @@ public class EmployeDAOImpl implements EmployeDAOI {
             st.setInt(8, emp.getId());
             int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, " successfully updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, " Mise à jour réussie!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "employe ne trouve pas.", "Alerte", JOptionPane.WARNING_MESSAGE);
-            }
+                JOptionPane.showMessageDialog(null, "employe ne trouve pas.", "Alerte", JOptionPane.WARNING_MESSAGE); }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
+            JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);}}
+             /* Supprime un employé de la base de données en fonction de son ID.
+   */
     @Override
     public void deleteEmploye(int id) {
         String sql = "DELETE FROM Employe WHERE id = ?";
@@ -66,16 +62,15 @@ public class EmployeDAOImpl implements EmployeDAOI {
             st.setInt(1, id);
             int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, " successfully deleted!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, " Suppression réussie!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "employe ne trouve pas .", "Information", JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
+            JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);}}
+            /* Récupère tous les employés de la base de données.
+     */
     @Override
     public List<Employe> getAllEmploye() {
         List<Employe> employes = new ArrayList<>();
@@ -91,13 +86,9 @@ public class EmployeDAOImpl implements EmployeDAOI {
                         rs.getString("telephone"),
                         rs.getDouble("salaire"),
                         Role.valueOf(rs.getString("role")),
-                        Poste.valueOf(rs.getString("poste"))
-                ));
-            }
+                        Poste.valueOf(rs.getString("poste")))); }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Err: " + e.getMessage(), "Err", JOptionPane.ERROR_MESSAGE);
         }
-        return employes;
-    }
-}
+        return employes;}}
