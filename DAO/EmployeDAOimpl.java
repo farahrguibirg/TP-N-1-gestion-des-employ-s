@@ -82,8 +82,8 @@ public class EmployeDAOImpl implements EmployeDAOI {
                 		rs.getInt("id"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
-                        rs.getString("email"),
                         rs.getString("telephone"),
+                        rs.getString("email"),
                         rs.getDouble("salaire"),
                         Role.valueOf(rs.getString("role")),
                         Poste.valueOf(rs.getString("poste")))); }
