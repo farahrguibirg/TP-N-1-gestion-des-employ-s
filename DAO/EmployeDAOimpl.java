@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class EmployeDAOImpl {
+public class EmployeDAOImpl implements EmployeDAOI {
 
-    public boolean insertEmp(Employe emp) {
+    public void insertEmp(Employe emp) {
         String sql = "INSERT INTO Employe (id, nom, prenom, email, salaire, role, poste, telephone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = Connexion.getConnexion();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -20,13 +20,12 @@ public class EmployeDAOImpl {
             ps.setString(3, emp.getPrenom());
             ps.setString(4, emp.getEmail());
             ps.setDouble(5, emp.getSalaire());
-            ps.setString(6, emp.getRole().toString());  
-            ps.setString(7, emp.getPoste().toString());  
+            ps.setString(6, emp.getRole().toString());
+            ps.setString(7, emp.getPoste().toString());
             ps.setString(8, emp.getTelephone());
 
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "L'employé a été inséré avec succès !", "", JOptionPane.INFORMATION_MESSAGE);
-                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "L'insertion a échoué.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
@@ -35,11 +34,9 @@ public class EmployeDAOImpl {
                     "Erreur SQL", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-        return false;
     }
 
-    // Méthode pour supprimer un employé
-    public boolean deleteEmp(int id) {
+    public void deleteEmp(int id) {
         String sql = "DELETE FROM Employe WHERE id = ?";
         try (Connection connection = Connexion.getConnexion();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -48,7 +45,6 @@ public class EmployeDAOImpl {
 
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "L'employé a été supprimé avec succès !", "", JOptionPane.INFORMATION_MESSAGE);
-                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "La suppression a échoué.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
@@ -57,11 +53,9 @@ public class EmployeDAOImpl {
                     "Erreur SQL", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-        return false;
     }
 
-    // Méthode pour mettre à jour un employé
-    public boolean updateEmp(Employe emp) {
+    public void updateEmp(Employe emp) {
         String sql = "UPDATE Employe SET nom = ?, prenom = ?, email = ?, salaire = ?, role = ?, poste = ?, telephone = ? WHERE id = ?";
         try (Connection connection = Connexion.getConnexion();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -70,14 +64,13 @@ public class EmployeDAOImpl {
             ps.setString(2, emp.getPrenom());
             ps.setString(3, emp.getEmail());
             ps.setDouble(4, emp.getSalaire());
-            ps.setString(5, emp.getRole().toString());  // Conversion en chaîne pour l'énumération
-            ps.setString(6, emp.getPoste().toString());  // Conversion en chaîne pour l'énumération
+            ps.setString(5, emp.getRole().toString());
+            ps.setString(6, emp.getPoste().toString());
             ps.setString(7, emp.getTelephone());
             ps.setInt(8, emp.getId());
 
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "L'employé a été modifié avec succès !", "", JOptionPane.INFORMATION_MESSAGE);
-                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "La modification a échoué.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
@@ -86,8 +79,8 @@ public class EmployeDAOImpl {
                     "Erreur SQL", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-        return false;
     }
+
     public List<Employe> getEmployes() {
         List<Employe> list = new ArrayList<>();
         String sql = "SELECT * FROM Employe";
@@ -95,20 +88,19 @@ public class EmployeDAOImpl {
              PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
-        	while (rs.next()) {
-        	    // Create the Employe object using the constructor
-        	    Employe emp = new Employe(
-        	        rs.getInt("id"), 
-        	        rs.getString("nom"), 
-        	        rs.getString("prenom"), 
-        	        rs.getString("email"), 
-        	        rs.getString("telephone"), 
-        	        rs.getDouble("salaire"),
-        	        Role.valueOf(rs.getString("role")),  
-        	        Poste.valueOf(rs.getString("poste")) 
-        	    );
-        	    list.add(emp);
-        	}
+            while (rs.next()) {
+                Employe emp = new Employe(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("telephone"),
+                        rs.getDouble("salaire"),
+                        Role.valueOf(rs.getString("role")),
+                        Poste.valueOf(rs.getString("poste"))
+                );
+                list.add(emp);
+            }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erreur lors de la récupération des employés : " + e.getMessage(),
@@ -117,4 +109,5 @@ public class EmployeDAOImpl {
         }
         return list;
     }
+
 }
